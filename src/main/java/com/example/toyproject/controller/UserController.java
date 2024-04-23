@@ -33,4 +33,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsers(pageable));
     }
 
+    @PutMapping("/{userId}")
+    public ResponseEntity<UserUpdateResponseDTO> userModify(@PathVariable String userId,
+                                                            @RequestBody UserUpdateRequestDTO userUpdateRequestDTO) {
+        return ResponseEntity.ok(userService.updateUser(userId, userUpdateRequestDTO));
+    }
+
 }

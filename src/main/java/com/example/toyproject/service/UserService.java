@@ -25,4 +25,14 @@ public class UserService {
         return new UserListResponseDTO(userPage.getContent(), paginationInfoDto);
     }
 
+    public UserUpdateResponseDTO updateUser(String userId, UserUpdateRequestDTO userUpdateRequestDTO) {
+        User user = userRepository.findByUserId(userId);
+        user.updateInfo(userUpdateRequestDTO.getNickname(),
+                userUpdateRequestDTO.getName(),
+                userUpdateRequestDTO.getPhoneNumber(),
+                userUpdateRequestDTO.getEmail());
+        User updatedUser = userRepository.save(user);
+        return UserUpdateResponseDTO.fromUser(updatedUser);
+    }
+
 }

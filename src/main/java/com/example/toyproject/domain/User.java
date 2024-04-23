@@ -37,4 +37,12 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
+
+    public void updateInfo(String nickname, String name, String phoneNumber, String email) {
+        this.nickname = nickname;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
 }
