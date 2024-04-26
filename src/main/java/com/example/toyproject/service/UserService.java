@@ -61,12 +61,20 @@ public class UserService {
 
     public UserUpdateResponseDTO updateUser(String userId, UserUpdateRequestDTO userUpdateRequestDTO) {
         User user = userRepository.findByUserId(userId).orElseThrow(() -> new NoSuchElementException("사용자가 존재하지 않습니다."));
+        checkPassword(user, userUpdateRequestDTO.getPassword());
+
         user.updateInfo(userUpdateRequestDTO.getNickname(),
                 userUpdateRequestDTO.getName(),
                 userUpdateRequestDTO.getPhoneNumber(),
                 userUpdateRequestDTO.getEmail());
         User updatedUser = userRepository.save(user);
         return UserUpdateResponseDTO.fromUser(updatedUser);
+    }
+
+    private void checkPassword(User user, String password) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
     }
 
 }

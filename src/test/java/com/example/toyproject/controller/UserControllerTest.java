@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -37,6 +38,9 @@ class UserControllerTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void setup() {
@@ -109,11 +113,12 @@ class UserControllerTest {
     @Test
     @DisplayName("회원 수정 Test")
     void 회원_수정() throws Exception {
-        User user = new User("user", "Password1!", "nickname", "name", "010-1234-1234", "user@a.c");
+        User user = new User("user", passwordEncoder.encode("Password1!"), "nickname", "name", "010-1234-1234", "user@a.c");
         userRepository.save(user);
 
         String userId = "user";
         UserUpdateRequestDTO userUpdateRequestDTO = new UserUpdateRequestDTO();
+        userUpdateRequestDTO.setPassword("Password1!");
         userUpdateRequestDTO.setNickname("newNickname");
         userUpdateRequestDTO.setName("newName");
         userUpdateRequestDTO.setPhoneNumber("010-4321-4321");
@@ -128,10 +133,33 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("회원 수정 실패 Test: 존재하지 않는 회원")
-    void 회원_수정_실패() throws Exception {
+    @DisplayName("회원 수정 실패 Test: 패스워드 불일치")
+    void 회원_수정_실패_패스워드_불일치() throws Exception {
+        User user = new User("user", passwordEncoder.encode("Password1!"), "nickname", "name", "010-1234-1234", "user@a.c");
+        userRepository.save(user);
+
         String userId = "user";
         UserUpdateRequestDTO userUpdateRequestDTO = new UserUpdateRequestDTO();
+        userUpdateRequestDTO.setPassword("Password1!@");
+        userUpdateRequestDTO.setNickname("newNickname");
+        userUpdateRequestDTO.setName("newName");
+        userUpdateRequestDTO.setPhoneNumber("010-4321-4321");
+        userUpdateRequestDTO.setEmail("newUser@a.c");
+
+        this.mockMvc
+                .perform(put("/api/user/" + userId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userUpdateRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("회원 수정 실패 Test: 존재하지 않는 회원")
+    void 회원_수정_실패_회원x() throws Exception {
+        String userId = "user";
+        UserUpdateRequestDTO userUpdateRequestDTO = new UserUpdateRequestDTO();
+        userUpdateRequestDTO.setPassword("Password1!");
         userUpdateRequestDTO.setNickname("newNickname");
         userUpdateRequestDTO.setName("newName");
         userUpdateRequestDTO.setPhoneNumber("010-4321-4321");

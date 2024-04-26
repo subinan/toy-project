@@ -20,7 +20,7 @@ class UserUpdateRequestDTOValidationTest {
     @DisplayName("유효한 회원 수정 요청")
     void 요청_valid() {
         // given
-        UserUpdateRequestDTO req = new UserUpdateRequestDTO("nickname", "name", "010-1234-5678", "user@a.c");
+        UserUpdateRequestDTO req = new UserUpdateRequestDTO("Password1!", "nickname", "name", "010-1234-5678", "user@a.c");
 
         // when
         Set<ConstraintViolation<UserUpdateRequestDTO>> violations = validator.validate(req);
@@ -33,7 +33,7 @@ class UserUpdateRequestDTOValidationTest {
     @DisplayName("유효하지 않은 회원 수정 요청 - 닉네임")
     void 닉네임_검사() {
         // 닉네임이 null인 경우
-        UserUpdateRequestDTO req = new UserUpdateRequestDTO(null, "name", "010-1234-5678", "req@example.com");
+        UserUpdateRequestDTO req = new UserUpdateRequestDTO("Password1!", null, "name", "010-1234-5678", "req@example.com");
         checkInvalid(req);
 
         // 닉네임이 비어있는 경우
@@ -53,7 +53,7 @@ class UserUpdateRequestDTOValidationTest {
     @DisplayName("유효하지 않은 회원 수정 요청 - 이름")
     void 이름_검사() {
         // 이름이 null인 경우
-        UserUpdateRequestDTO req = new UserUpdateRequestDTO("nickname", null, "010-1234-5678", "req@example.com");
+        UserUpdateRequestDTO req = new UserUpdateRequestDTO("Password1!", "nickname", null, "010-1234-5678", "req@example.com");
         checkInvalid(req);
 
         // 이름이 비어있는 경우
@@ -73,7 +73,7 @@ class UserUpdateRequestDTOValidationTest {
     @DisplayName("유효하지 않은 회원 수정 요청 - 전화번호")
     void 전화번호_검사() {
         // 전화번호가 null인 경우
-        UserUpdateRequestDTO req = new UserUpdateRequestDTO("nickname", "name", null, "req@example.com");
+        UserUpdateRequestDTO req = new UserUpdateRequestDTO("Password1!", "nickname", "name", null, "req@example.com");
         checkInvalid(req);
 
         // 전화번호가 비어있는 경우
@@ -89,7 +89,7 @@ class UserUpdateRequestDTOValidationTest {
     @DisplayName("유효하지 않은 회원 수정 요청 - 이메일")
     void 이메일_검사() {
         // 이메일이 null인 경우
-        UserUpdateRequestDTO req = new UserUpdateRequestDTO("nickname", "name", "010-1234-5678", null);
+        UserUpdateRequestDTO req = new UserUpdateRequestDTO("Password1!", "nickname", "name", "010-1234-5678", null);
         checkInvalid(req);
 
         // 이메일이 비어있는 경우

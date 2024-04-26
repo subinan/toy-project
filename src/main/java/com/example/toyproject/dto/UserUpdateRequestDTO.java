@@ -18,6 +18,12 @@ import javax.validation.constraints.Size;
 public class UserUpdateRequestDTO {
 
     @NotBlank
+    @Size(min = 8, message = "비밀번호는 8자 이상만 허용합니다.")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]+$",
+            message = "비밀번호는 최소한 하나의 알파벳(대소문자), 숫자, 특수문자를 포함해야 합니다.")
+    private String password;
+
+    @NotBlank
     @Size(max = 20, message = "닉네임은 20자 이하만 허용합니다.")
     @Pattern(regexp = "^[a-zA-Z0-9가-힣]*$", message = "닉네임은 알파벳, 숫자, 한글만 사용 가능합니다.")
     private String nickname;
