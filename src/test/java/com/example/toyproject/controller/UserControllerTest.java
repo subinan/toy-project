@@ -65,6 +65,25 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("회원 가입 실패 Test: 올바르지 않은 입력값")
+    void 회원_가입_실패() throws Exception {
+        SignUpRequestDTO signUpRequestDTO = new SignUpRequestDTO();
+        signUpRequestDTO.setUserId("user");
+        signUpRequestDTO.setPassword("Password1");
+        signUpRequestDTO.setNickname("닉네임");
+        signUpRequestDTO.setName("이름");
+        signUpRequestDTO.setPhoneNumber("010-1234-1234");
+        signUpRequestDTO.setEmail("user@a.c");
+
+        this.mockMvc
+                .perform(post("/api/user/join")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(signUpRequestDTO)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
     @DisplayName("회원 목록 Test")
     void 회원_목록() throws Exception {
         User user1 = new User("user1", "Password1!", "nickname", "name", "010-1234-1234", "user@a.c");
