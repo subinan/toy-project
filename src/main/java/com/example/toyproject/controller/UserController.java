@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -19,7 +20,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/join")
-    public ResponseEntity<Void> join(@RequestBody SignUpRequestDTO signUpRequestDTO) {
+    public ResponseEntity<Void> join(@RequestBody @Valid SignUpRequestDTO signUpRequestDTO) {
         userService.createUser(signUpRequestDTO);
         return ResponseEntity.created(URI.create("/api/user/" + signUpRequestDTO.getUserId())).build();
     }
@@ -38,7 +39,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<UserUpdateResponseDTO> userModify(@PathVariable String userId,
-                                                            @RequestBody UserUpdateRequestDTO userUpdateRequestDTO) {
+                                                            @RequestBody @Valid UserUpdateRequestDTO userUpdateRequestDTO) {
         return ResponseEntity.ok(userService.updateUser(userId, userUpdateRequestDTO));
     }
 
