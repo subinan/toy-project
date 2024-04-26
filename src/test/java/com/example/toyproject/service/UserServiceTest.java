@@ -181,7 +181,7 @@ class UserServiceTest {
         Pageable pageable = userService.getPageable(page, pageSize, sortKey, sortOrder);
 
         // then
-        assertEquals(PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "userId")), pageable);
+        assertEquals(PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "name")), pageable);
     }
 
     @Test
@@ -197,7 +197,7 @@ class UserServiceTest {
         Pageable pageable = userService.getPageable(page, pageSize, sortKey, sortOrder);
 
         // then
-        assertEquals(PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "userId")), pageable);
+        assertEquals(PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "name")), pageable);
     }
 
 }

@@ -56,7 +56,7 @@ public class UserService {
             case "createdAt":
                 return Sort.by(direction, "createdAt");
             default:
-                return Sort.by(direction, "userId");
+                return Sort.by(direction, "name");
         }
     }
 

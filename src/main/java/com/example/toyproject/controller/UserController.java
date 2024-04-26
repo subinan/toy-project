@@ -40,7 +40,7 @@ public class UserController {
             @RequestParam(defaultValue = "1") int page,
             @Parameter(description = "한 페이지의 데이터 개수")
             @RequestParam(defaultValue = "10") int pageSize,
-            @Parameter(description = "정렬 기준: createdAt 또는 userId")
+            @Parameter(description = "정렬 기준: createdAt 또는 name")
             @RequestParam(defaultValue = "userId") String sortKey,
             @Parameter(description = "정렬 방식: 오름차순(asc) 또는 내림차순(desc)")
             @RequestParam(defaultValue = "asc") String sortOrder) {
