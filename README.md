@@ -1,3 +1,13 @@
+## 실행 방법
+
+깃허브 클론 후 `application.properties` 파일에서 데이터베이스 연결 정보를 수정헤주세요.
+
+```properties
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+```
+
 ## API 문서
 
 ### 회원 가입 (POST /api/user/join)
