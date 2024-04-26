@@ -5,7 +5,9 @@ import com.example.toyproject.dto.*;
 import com.example.toyproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +25,22 @@ public class UserService {
         Page<UserInfoResponseDTO> userPage = userRepository.findAll(pageable).map(UserInfoResponseDTO::fromUser);
         PaginationInfoDto paginationInfoDto = new PaginationInfoDto(pageable.getPageNumber() + 1, userPage.getSize(), userPage.getTotalPages());
         return new UserListResponseDTO(userPage.getContent(), paginationInfoDto);
+    }
+
+    public Pageable getPageable(int page, int pageSize, String sortKey, String sortOrder) {
+        Sort sort = getSort(sortKey, sortOrder);
+        return PageRequest.of(page - 1, pageSize, sort);
+    }
+
+    private Sort getSort(String sortKey, String sortOrder) {
+        Sort.Direction direction = sortOrder.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        switch (sortKey) {
+            case "createdAt":
+                return Sort.by(direction, "createdAt");
+            default:
+                return Sort.by(direction, "userId");
+        }
     }
 
     public UserUpdateResponseDTO updateUser(String userId, UserUpdateRequestDTO userUpdateRequestDTO) {

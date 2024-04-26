@@ -4,9 +4,7 @@ import com.example.toyproject.dto.*;
 import com.example.toyproject.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +26,10 @@ public class UserController {
 
     @GetMapping("/list")
     public ResponseEntity<UserListResponseDTO> userList(@RequestParam(defaultValue = "1") int page,
-                                                        @RequestParam(defaultValue = "10") int pageSize) {
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("createdAt").ascending().and(Sort.by("userId").ascending()));
+                                                        @RequestParam(defaultValue = "10") int pageSize,
+                                                        @RequestParam(defaultValue = "userId") String sortKey,
+                                                        @RequestParam(defaultValue = "asc") String sortOrder) {
+        Pageable pageable = userService.getPageable(page, pageSize, sortKey, sortOrder);
         return ResponseEntity.ok(userService.getUsers(pageable));
     }
 
