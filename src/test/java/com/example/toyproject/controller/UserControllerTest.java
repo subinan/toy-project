@@ -50,7 +50,7 @@ class UserControllerTest {
     void 회원_가입() throws Exception {
         SignUpRequestDTO signUpRequestDTO = new SignUpRequestDTO();
         signUpRequestDTO.setUserId("user");
-        signUpRequestDTO.setPassword("1234");
+        signUpRequestDTO.setPassword("Password1!");
         signUpRequestDTO.setNickname("닉네임");
         signUpRequestDTO.setName("이름");
         signUpRequestDTO.setPhoneNumber("010-1234-1234");
@@ -67,8 +67,8 @@ class UserControllerTest {
     @Test
     @DisplayName("회원 목록 Test")
     void 회원_목록() throws Exception {
-        User user1 = new User("user1", "password", "nickname", "name", "010-1234-1234", "user@a.c");
-        User user2 = new User("user2", "password", "nickname", "name", "010-1234-1234", "user@a.c");
+        User user1 = new User("user1", "Password1!", "nickname", "name", "010-1234-1234", "user@a.c");
+        User user2 = new User("user2", "Password1!", "nickname", "name", "010-1234-1234", "user@a.c");
         userRepository.save(user1);
         userRepository.save(user2);
 
@@ -90,7 +90,7 @@ class UserControllerTest {
     @Test
     @DisplayName("회원 수정 Test")
     void 회원_수정() throws Exception {
-        User user = new User("user", "password", "nickname", "name", "010-1234-1234", "user@a.c");
+        User user = new User("user", "Password1!", "nickname", "name", "010-1234-1234", "user@a.c");
         userRepository.save(user);
 
         String userId = "user";
