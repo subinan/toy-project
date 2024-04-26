@@ -79,6 +79,15 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("회원 목록 실패 Test: 페이징 에러")
+    void 회원_목록_실패() throws Exception {
+        this.mockMvc
+                .perform(get("/api/user/list?page-1&pageSize=0"))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
     @DisplayName("회원 수정 Test")
     void 회원_수정() throws Exception {
         User user = new User("user", "password", "nickname", "name", "010-1234-1234", "user@a.c");
