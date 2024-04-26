@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -44,7 +46,7 @@ public class UserService {
     }
 
     public UserUpdateResponseDTO updateUser(String userId, UserUpdateRequestDTO userUpdateRequestDTO) {
-        User user = userRepository.findByUserId(userId);
+        User user = userRepository.findByUserId(userId).orElseThrow(() -> new NoSuchElementException("사용자가 존재하지 않습니다."));
         user.updateInfo(userUpdateRequestDTO.getNickname(),
                 userUpdateRequestDTO.getName(),
                 userUpdateRequestDTO.getPhoneNumber(),

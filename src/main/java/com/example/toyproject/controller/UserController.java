@@ -29,6 +29,9 @@ public class UserController {
                                                         @RequestParam(defaultValue = "10") int pageSize,
                                                         @RequestParam(defaultValue = "userId") String sortKey,
                                                         @RequestParam(defaultValue = "asc") String sortOrder) {
+
+        if (page < 0 || pageSize < 1) throw new IllegalArgumentException("페이징 범위가 올바르지 않습니다.");
+
         Pageable pageable = userService.getPageable(page, pageSize, sortKey, sortOrder);
         return ResponseEntity.ok(userService.getUsers(pageable));
     }
