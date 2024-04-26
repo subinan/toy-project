@@ -68,6 +68,27 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("유저 생성 실패 Test: 중복된 아이디")
+    void 유저_생성_실패() {
+        // given
+        SignUpRequestDTO signUpRequestDTO = new SignUpRequestDTO();
+        signUpRequestDTO.setUserId("user");
+        signUpRequestDTO.setPassword("1234");
+        signUpRequestDTO.setNickname("닉네임");
+        signUpRequestDTO.setName("이름");
+        signUpRequestDTO.setPhoneNumber("010-1234-1234");
+        signUpRequestDTO.setEmail("user@a.c");
+
+        User user = new User("user", "1234", "닉네임", "이름", "010-1234-1234", "user@a.c");
+
+        // mocking
+        given(userRepository.findByUserId("user"))
+                .willReturn(Optional.of(user));
+
+        assertThrows(IllegalArgumentException.class, () -> userService.createUser(signUpRequestDTO));
+    }
+
+    @Test
     @DisplayName("유저 조회 Test")
     void 유저_조회() {
         // given

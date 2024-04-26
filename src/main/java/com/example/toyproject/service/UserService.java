@@ -19,8 +19,16 @@ public class UserService {
     private final UserRepository userRepository;
 
     public void createUser(SignUpRequestDTO signUpRequestDTO) {
+        checkUserId(signUpRequestDTO.getUserId());
+
         User user = SignUpRequestDTO.toUser(signUpRequestDTO);
         userRepository.save(user);
+    }
+
+    private void checkUserId(String userId) {
+        if (userRepository.findByUserId(userId).isPresent()) {
+            throw new IllegalArgumentException("중복된 아이디입니다.");
+        }
     }
 
     public UserListResponseDTO getUsers(Pageable pageable) {
