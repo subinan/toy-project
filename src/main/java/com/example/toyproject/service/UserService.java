@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -17,11 +18,16 @@ import java.util.NoSuchElementException;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void createUser(SignUpRequestDTO signUpRequestDTO) {
         checkUserId(signUpRequestDTO.getUserId());
 
         User user = SignUpRequestDTO.toUser(signUpRequestDTO);
+
+        String encodedPassword = passwordEncoder.encode(signUpRequestDTO.getPassword());
+        user.setEncodedPassword(encodedPassword);
+
         userRepository.save(user);
     }
 

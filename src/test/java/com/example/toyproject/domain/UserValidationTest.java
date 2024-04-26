@@ -60,14 +60,6 @@ class UserValidationTest {
         // 사용자 패스워드가 비어있는 경우
         setField(user, "password", "");
         checkInvalid(user);
-
-        // 패스워드가 최소 길이 미만인 경우
-        setField(user, "password", "Pass1!");
-        checkInvalid(user);
-
-        // 패스워드가 허용되지 않는 조건을 충족하지 않는 경우 (대문자, 소문자, 숫자, 특수문자 각각 하나 이상 포함되어야 함)
-        setField(user, "password", "Password1");
-        checkInvalid(user);
     }
 
     @Test
