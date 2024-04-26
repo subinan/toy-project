@@ -26,9 +26,9 @@ public class UserController {
     @Operation(summary = "회원 가입", description = "회원을 등록합니다.")
     @ApiResponse(responseCode = "201", description = "success")
     @ApiResponse(responseCode = "400", description = "bad request")
-    public ResponseEntity<Void> join(@RequestBody @Valid SignUpRequestDTO signUpRequestDTO) {
-        userService.createUser(signUpRequestDTO);
-        return ResponseEntity.created(URI.create("/api/user/" + signUpRequestDTO.getUserId())).build();
+    public ResponseEntity<UserInfoResponseDTO> join(@RequestBody @Valid SignUpRequestDTO signUpRequestDTO) {
+        UserInfoResponseDTO res = userService.createUser(signUpRequestDTO);
+        return ResponseEntity.created(URI.create("/api/user/" + res.getUserId())).body(res);
     }
 
     @GetMapping("/list")

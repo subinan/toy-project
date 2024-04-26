@@ -78,9 +78,16 @@ class UserServiceTest {
     @DisplayName("encode 메서드 호출 확인")
     void 패스워드_인코딩_확인() {
         SignUpRequestDTO signUpRequestDTO = new SignUpRequestDTO();
-        signUpRequestDTO.setUserId("testUser");
+        signUpRequestDTO.setUserId("user");
         signUpRequestDTO.setPassword("testPassword");
+        signUpRequestDTO.setNickname("닉네임");
+        signUpRequestDTO.setName("이름");
+        signUpRequestDTO.setPhoneNumber("010-1234-1234");
+        signUpRequestDTO.setEmail("user@a.c");
 
+        User user = new User("user", "testPassword", "닉네임", "이름", "010-1234-1234", "user@a.c");
+
+        when(userRepository.save(any())).thenReturn(user);
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
 
         userService.createUser(signUpRequestDTO);

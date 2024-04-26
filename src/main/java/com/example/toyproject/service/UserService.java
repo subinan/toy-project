@@ -20,7 +20,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void createUser(SignUpRequestDTO signUpRequestDTO) {
+    public UserInfoResponseDTO createUser(SignUpRequestDTO signUpRequestDTO) {
         checkUserId(signUpRequestDTO.getUserId());
 
         User user = SignUpRequestDTO.toUser(signUpRequestDTO);
@@ -28,7 +28,8 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(signUpRequestDTO.getPassword());
         user.setEncodedPassword(encodedPassword);
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        return UserInfoResponseDTO.fromUser(savedUser);
     }
 
     private void checkUserId(String userId) {
