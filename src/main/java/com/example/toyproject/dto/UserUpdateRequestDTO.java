@@ -18,21 +18,21 @@ import javax.validation.constraints.Size;
 public class UserUpdateRequestDTO {
 
     @NotBlank
-    @Size(max = 20)
-    @Pattern(regexp = "^[a-zA-Z0-9가-힣]*$")
+    @Size(max = 20, message = "닉네임은 20자 이하만 허용합니다.")
+    @Pattern(regexp = "^[a-zA-Z0-9가-힣]*$", message = "닉네임은 알파벳, 숫자, 한글만 사용 가능합니다.")
     private String nickname;
 
     @NotBlank
-    @Size(max = 10)
-    @Pattern(regexp = "^[a-zA-Z가-힣]*$")
+    @Size(max = 10, message = "이름은 10자 이하만 허용합니다.")
+    @Pattern(regexp = "^[a-zA-Z가-힣]*$", message = "이름은 알파벳과 한글만 사용 가능합니다.")
     private String name;
 
     @JsonProperty("phone_number")
     @NotBlank
-    @Pattern(regexp = "^01([016-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
+    @Pattern(regexp = "^01([016-9])-(?:\\d{3}|\\d{4})-\\d{4}$", message = "핸드폰 번호 형식과 일치하지 않습니다.")
     private String phoneNumber;
 
     @NotBlank
-    @Email
+    @Email(message = "이메일 형식과 일치하지 않습니다.")
     private String email;
 }
